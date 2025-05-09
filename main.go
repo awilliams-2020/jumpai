@@ -24,5 +24,5 @@ func main() {
 	router.SetupRouter(app)
 
 	// Start and run the server on localhost as default
-	app.Run("127.0.0.1:" + os.Getenv("PORT"))
+	app.Run("0.0.0.0:" + os.Getenv("PORT"))
 }
