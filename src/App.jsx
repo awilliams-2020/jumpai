@@ -1,13 +1,9 @@
 import { useState, useRef } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { marked } from "marked";
 import html2pdf from "html2pdf.js";
-import './App.css';
 
 const App = () => {
-    const [markdown, setMarkdown] = useState("# Hello World\nThis is a live markdown preview.");
+  const [markdown, setMarkdown] = useState("# Hello World\nThis is a live markdown preview.");
   const renderedRef = useRef(null);
 
   const handleCopy = async () => {
@@ -24,30 +20,27 @@ const App = () => {
       html2pdf().from(renderedRef.current).save("markdown-preview.pdf");
     }
   };
+
   return (
-    <div className="grid grid-cols-2 gap-4 p-4 h-screen">
-      <Card className="h-full flex flex-col">
-        <CardContent className="p-4 flex-1 overflow-auto">
-          <Textarea
-            className="w-full h-full"
-            value={markdown}
-            onChange={(e) => setMarkdown(e.target.value)}
-          />
-        </CardContent>
-      </Card>
-      <Card className="h-full flex flex-col">
-        <CardContent className="p-4 flex-1 overflow-auto">
-          <div
-            ref={renderedRef}
-            className="prose prose-lg"
-            dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
-          />
-        </CardContent>
-        <div className="flex justify-end gap-2 p-4">
-          <Button onClick={handleCopy}>Copy</Button>
-          <Button onClick={handleExport}>Export</Button>
+    <div style={{ display: 'flex', gap: '1rem', padding: '1rem', height: '100vh' }}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', border: '1px solid #ccc' }}>
+        <textarea
+          style={{ flex: 1, padding: '1rem', fontSize: '1rem', border: 'none', resize: 'none' }}
+          value={markdown}
+          onChange={(e) => setMarkdown(e.target.value)}
+        />
+      </div>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', border: '1px solid #ccc' }}>
+        <div
+          ref={renderedRef}
+          style={{ flex: 1, padding: '1rem', overflowY: 'auto' }}
+          dangerouslySetInnerHTML={{ __html: marked.parse(markdown) }}
+        />
+        <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', padding: '1rem' }}>
+          <button onClick={handleCopy} style={{ padding: '0.5rem 1rem' }}>Copy</button>
+          <button onClick={handleExport} style={{ padding: '0.5rem 1rem' }}>Export</button>
         </div>
-      </Card>
+      </div>
     </div>
   );
 };
